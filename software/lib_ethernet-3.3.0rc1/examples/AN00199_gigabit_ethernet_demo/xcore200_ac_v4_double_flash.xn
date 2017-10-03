@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Network xmlns="http://www.xmos.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xmos.com http://www.xmos.com">
+  <Type>Board</Type>
+  <Name>xCORE-200 Explorer Kit</Name>
+  <Declarations>
+    <Declaration>tileref tile[8]</Declaration>
+    <Declaration>tileref usb_tile[2]</Declaration>
+  </Declarations>
+  <Packages>
+
+    <Package id="0" Type="XS2-UEnA-512-FB236">
+      <Nodes>
+        <Node Id="0" InPackageId="0" Type="XS2-L16A-512" OscillatorSrc="1" Oscillator="24MHz" SystemFrequency="500MHz">
+          <Boot>
+            <Source Location="SPI:bootFlash1"/>
+            <Bootee NodeId="2" Tile="0"/>
+            <Bootee NodeId="2" Tile="1"/>
+          </Boot>
+          <Tile Number="0" Reference="tile[0]">
+            <Port Location="XS1_PORT_1B" Name="XM1_PORT_SQI_CS"/>
+            <Port Location="XS1_PORT_1C" Name="XM1_PORT_SQI_SCLK"/>
+            <Port Location="XS1_PORT_4B" Name="XM1_PORT_SQI_SIO"/>
+          </Tile>
+          <Tile Number="1" Reference="tile[1]"/>
+        </Node>
+        <Node Id="1" InPackageId="1" Type="periph:XS1-SU" Reference="usb_tile[0]" Oscillator="24MHz">
+        </Node>
+      </Nodes>
+      <Links>
+        <Link Encoding="5wire">
+          <LinkEndpoint NodeId="0" Link="8" Delays="52clk,52clk"/>
+          <LinkEndpoint NodeId="1" Link="XL0" Delays="1clk,1clk"/>
+        </Link>
+      </Links>
+    </Package>
+
+    <Package id="0" Type="XS2-LnA-512-TQ128">
+      <Nodes>
+        <Node Id="2" InPackageId="0" Type="XS2-L16A-512" Oscillator="24MHz" SystemFrequency="500MHz">
+          <Boot>
+          <Source Location="LINK" BootMode="4"/>
+          </Boot>
+          <Tile Number="0" Reference="tile[2]"/>
+          <Tile Number="1" Reference="tile[3]"/>
+        </Node>
+      </Nodes>
+    </Package>
+
+    <Package id="0" Type="XS2-LnA-512-TQ128">
+      <Nodes>
+        <Node Id="3" InPackageId="0" Type="XS2-L16A-512" Oscillator="24MHz" SystemFrequency="500MHz">
+          <Boot>
+          <Source Location="LINK" BootMode="4"/>
+          </Boot>
+          <Tile Number="0" Reference="tile[4]"/>
+          <Tile Number="1" Reference="tile[5]"/>
+        </Node>
+      </Nodes>
+    </Package>
+
+    <Package id="0" Type="XS2-UEnA-512-FB236">
+      <Nodes>
+        <Node Id="4" InPackageId="0" Type="XS2-L16A-512" OscillatorSrc="1" Oscillator="24MHz" SystemFrequency="500MHz">
+          <Boot>
+            <Source Location="SPI:bootFlash2"/>
+            <Bootee NodeId="3" Tile="0"/>
+            <Bootee NodeId="3" Tile="1"/>
+          </Boot>
+          <Tile Number="0" Reference="tile[6]">
+            <Port Location="XS1_PORT_1B" Name="XM4_PORT_SQI_CS"/>
+            <Port Location="XS1_PORT_1C" Name="XM4_PORT_SQI_SCLK"/>
+            <Port Location="XS1_PORT_4B" Name="XM4_PORT_SQI_SIO"/>
+          </Tile>
+          <Tile Number="1" Reference="tile[7]"/>
+        </Node>
+        <Node Id="5" InPackageId="1" Type="periph:XS1-SU" Reference="usb_tile[1]" Oscillator="24MHz">
+        </Node>
+      </Nodes>
+      <Links>
+        <Link Encoding="5wire">
+          <LinkEndpoint NodeId="4" Link="8" Delays="52clk,52clk"/>
+          <LinkEndpoint NodeId="5" Link="XL0" Delays="1clk,1clk"/>
+        </Link>
+      </Links>
+    </Package>
+
+  </Packages>
+
+  <Links>
+    <Link Encoding="2wire" Delays="52clk,52clk">
+      <LinkEndpoint NodeId="0" Link="7"/>
+      <LinkEndpoint NodeId="2" Link="0"/>
+    </Link>
+    <Link Encoding="2wire" Delays="52clk,52clk">
+      <LinkEndpoint NodeId="0" Link="3"/>
+      <LinkEndpoint NodeId="4" Link="0"/>
+    </Link>
+    <Link Encoding="2wire" Delays="52clk,52clk">
+      <LinkEndpoint NodeId="4" Link="7"/>
+      <LinkEndpoint NodeId="3" Link="0"/>
+    </Link>
+
+  </Links>
+
+  <ExternalDevices>
+    <Device NodeId="0" Tile="0" Class="SQIFlash" Name="bootFlash1">
+      <Attribute Name="PORT_SQI_CS" Value="XM1_PORT_SQI_CS"/>
+      <Attribute Name="PORT_SQI_SCLK"   Value="XM1_PORT_SQI_SCLK"/>
+      <Attribute Name="PORT_SQI_SIO"  Value="XM1_PORT_SQI_SIO"/>
+      <Attribute Name="QE_REGISTER" Value="quad_spi_qe_location_status_reg_0"/>
+      <Attribute Name="QE_BIT" Value="quad_spi_qe_bit_6"/>
+    </Device>
+    <Device NodeId="4" Tile="0" Class="SQIFlash" Name="bootFlash2">
+      <Attribute Name="PORT_SQI_CS" Value="XM4_PORT_SQI_CS"/>
+      <Attribute Name="PORT_SQI_SCLK"   Value="XM4_PORT_SQI_SCLK"/>
+      <Attribute Name="PORT_SQI_SIO"  Value="XM4_PORT_SQI_SIO"/>
+      <Attribute Name="QE_REGISTER" Value="quad_spi_qe_location_status_reg_0"/>
+      <Attribute Name="QE_BIT" Value="quad_spi_qe_bit_6"/>
+    </Device>
+  </ExternalDevices>
+  <JTAGChain>
+    <JTAGDevice NodeId="0"/>
+    <JTAGDevice NodeId="2"/>
+    <JTAGDevice NodeId="3"/>
+    <JTAGDevice NodeId="4"/>
+  </JTAGChain>
+</Network>
